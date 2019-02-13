@@ -53,4 +53,5 @@ https://asb2m10.github.io/dexed/
 ***
 
 ##  Other projects
-http://tinyurl.com/sincxsens  
+SyncXsens  
+http://tinyurl.com/syncxsens  
