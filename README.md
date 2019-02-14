@@ -6,6 +6,10 @@ Synchrony exploration through a sensing lens (PLUX sensors + OpenSignals + pytho
 [3. Extra resources](#resrc)  
 [4. Configuration](#config)  
 
+##  Code to assess synchrony between two signals <a name="syncassess"></a>
+[sync_assess](./src/sync_assess.py)
+
+
 ##  1. Tools required <a name="prereq"></a>
 - PLUX biosignalsplux + 2xPZT respiration sensors  
 https://www.biosignalsplux.com/en/explorer
