@@ -4,13 +4,16 @@
 # https://www.biosignalsplux.com/notebooks/Categories/Load/open_h5_rev.php
 from h5py import File
 import numpy as np
-import matplotlib.pyplot as plt
 import biosignalsnotebooks as bsnb # biosignalsnotebooks
 from scipy.signal import hilbert 
 from scipy.stats import linregress
+from scipy.signal import coherence
+
 from sklearn import preprocessing 
 from sklearn.metrics.pairwise import cosine_similarity
 import novainstrumentation as ni
+
+from neurokit import rsp_process
 
 
 #                   normalized_amplitude,  #amplitude #miq
@@ -42,10 +45,11 @@ def signalclipping():
     return True
 
 
-# ni Smoothing
+# ni 100 Smoothing (with reshape safeguard)
 def smoothing(a):
-    """novainstrumentation smoothing
-    Reshape used to work with column arrays
+    """novainstrumentation 100 smoothing
+    Reshape safeguard used to work with column arrays
+    TODO: Check causality
     """
     is_reshaped = False
     if a.ndim != 1:
@@ -112,7 +116,7 @@ def similar_der_smooth(a, b):
 
 # Relative integral
 def relative_int(a, b):
-    """Similar relative integral coefficient
+    """Similar relative integral coefficient sum(b)/sum(a)
     1 --> similarity
     Above and below
     """
@@ -128,7 +132,7 @@ def avg_difference(a, b):
 # Cosine similarity
 def cos_similarity(a, b):
     """Cosine similarity between 2 vectors """
-    return (cosine_similarity(a,b)) 
+    return (cosine_similarity(a.reshape(1,-1),b.reshape(1,-1))) 
 
 # Compute metric slw
 def compute_metric_slw(a,b,f, window=1000, overlap=.5):
@@ -154,12 +158,13 @@ def compute_metric_slw(a,b,f, window=1000, overlap=.5):
         time += [i_s]
         time_x += [i_s + win]
         result += [f(wa,wb)]
-#    return (np.array(result)).reshape(-1,1), (np.array(time)).reshape(-1,1) 
-    return (np.array(result)).reshape(-1,1), (np.array(time_x)).reshape(-1,1) 
+#    return (np.array(result)), (np.array(time)) 
+    return (np.array(result)).reshape(-1,1), (np.array(time_x)).reshape(-1,1)
 
 ##### SHADI ###################################################################
 ##############################################################################
 
+# Linear regression corr coeffcient
 def lin_reg_r_metric(a,b):
     # 1 dim step added
     if a.ndim != 1:
@@ -168,9 +173,69 @@ def lin_reg_r_metric(a,b):
         b = b.reshape(len(b))
     return linregress(a,b)[2]
 
+# Corr coefficient
+# Problems/warnings 1d scipy
 def correlation_coeff(a,b):
     corr_mat=np.corrcoef(a,b)
     corr_coef=corr_mat[0,1]
     return corr_coef
+
+# Instantaneous phase
+# Why is this computed several times
+def comp_inst_phase(x_temp,sampling_rate):
+    analytic_signal = hilbert(x_temp)
+    analytic_signal=np.array(analytic_signal)
+    instantaneous_phase = np.unwrap(np.angle(analytic_signal))
+    instantaneous_frequency = (np.diff(instantaneous_phase) /(2.0*np.pi) * fs)
+    instantaneous_frequency = np.append(instantaneous_frequency,instantaneous_frequency[-1])
+    return instantaneous_frequency
+
+## phase difference## 
+# TODO: Check order convention b,a
+def phase_diff(a,b):
+    inst_phase_sig1=comp_inst_phase(a)
+    inst_phase_sig2=comp_inst_phase(b) 
+    phase_diff=inst_phase_sig1-inst_phase_sig2
+    return phase_diff
+
+## mean phase coherence
+# TODO: Check order convention b,a
+def MPC(a,b):
+    inst_phase_sig1=comp_inst_phase(a)
+    inst_phase_sig2=comp_inst_phase(b)
+    phase_diff=np.mean(inst_phase_sig1-inst_phase_sig2)
+    mpc = (np.mean(np.cos(phase_diff))**2 + np.mean(np.sin(phase_diff))**2)**(0.5);
+    return mpc 
+
+# signal coherence ?
+# why is nperseg = 1024 ? 
+# TODO Check reference https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.coherence.html
+# Hardcoded sampling rate problem
+def MSC(a,b):
+#    f, Cxy = coherence(a, b , sampling_rate, nperseg=1024)
+    f, Cxy = coherence(a, b , 1000, nperseg=1024)
+
+    coh_mean=np.mean(Cxy)
+    return coh_mean
+
+# whitening (mean, std normalisation)
+def wh(s):
+    """whitening"""
+    return (s-np.mean(s))/np.std(s)
+
+
+
+# SHADI's neurokit peak detection 
+def rsp_peak_detect(a, sampling_rate):
+    onset = rsp_process(a.reshape(len(a)),sampling_rate)["RSP"]["Expiration_Onsets"]
+    th = 1.6 * np.mean(a)
+    ind_cycle = []
+    
+    # Remove below threshold th
+    for i in range(len(onset)):
+        amp_peak = a[onset[i]]
+        if amp_peak>th:
+            ind_cycle += [onset[i]]
+    return ind_cycle
 
 
