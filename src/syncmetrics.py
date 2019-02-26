@@ -181,21 +181,22 @@ def correlation_coeff(a,b):
     return corr_coef
 
 # Instantaneous phase
-# Why is this computed several times
-def comp_inst_phase(x_temp,sampling_rate):
+# TODO hardcoded srate problem
+def comp_inst_phase(x_temp):
+    sampling_rate = 1000
     analytic_signal = hilbert(x_temp)
     analytic_signal=np.array(analytic_signal)
     instantaneous_phase = np.unwrap(np.angle(analytic_signal))
-    instantaneous_frequency = (np.diff(instantaneous_phase) /(2.0*np.pi) * fs)
+    instantaneous_frequency = (np.diff(instantaneous_phase) /(2.0*np.pi) * sampling_rate)
     instantaneous_frequency = np.append(instantaneous_frequency,instantaneous_frequency[-1])
     return instantaneous_frequency
 
 ## phase difference## 
 # TODO: Check order convention b,a
-def phase_diff(a,b):
+def inst_phase_difference(a,b):  
     inst_phase_sig1=comp_inst_phase(a)
     inst_phase_sig2=comp_inst_phase(b) 
-    phase_diff=inst_phase_sig1-inst_phase_sig2
+    phase_diff=np.mean(inst_phase_sig1-inst_phase_sig2)
     return phase_diff
 
 ## mean phase coherence
@@ -203,18 +204,18 @@ def phase_diff(a,b):
 def MPC(a,b):
     inst_phase_sig1=comp_inst_phase(a)
     inst_phase_sig2=comp_inst_phase(b)
-    phase_diff=np.mean(inst_phase_sig1-inst_phase_sig2)
-    mpc = (np.mean(np.cos(phase_diff))**2 + np.mean(np.sin(phase_diff))**2)**(0.5);
+    inst_phase_diff=inst_phase_sig1-inst_phase_sig2
+    mpc = (np.mean(np.cos(inst_phase_diff))**2 + np.mean(np.sin(inst_phase_diff))**2)**(0.5);
     return mpc 
 
 # signal coherence ?
 # why is nperseg = 1024 ? 
 # TODO Check reference https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.coherence.html
-# Hardcoded sampling rate problem
+# TODO Hardcoded sampling rate problem
 def MSC(a,b):
 #    f, Cxy = coherence(a, b , sampling_rate, nperseg=1024)
-    f, Cxy = coherence(a, b , 1000, nperseg=1024)
-
+    sampling_rate = 1000
+    f, Cxy = coherence(a, b , sampling_rate, nperseg=1024)
     coh_mean=np.mean(Cxy)
     return coh_mean
 
@@ -226,15 +227,15 @@ def wh(s):
 
 
 # SHADI's neurokit peak detection 
-def rsp_peak_detect(a, sampling_rate):
+def rsp_peak_detect(a, sampling_rate, th_scale):
     onset = rsp_process(a.reshape(len(a)),sampling_rate)["RSP"]["Expiration_Onsets"]
-    th = 1.6 * np.mean(a)
+    th = th_scale * np.mean(a)
     ind_cycle = []
     
     # Remove below threshold th
     for i in range(len(onset)):
         amp_peak = a[onset[i]]
-        if amp_peak>th:
+        if amp_peak > th:
             ind_cycle += [onset[i]]
     return ind_cycle
 
