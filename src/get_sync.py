@@ -6,8 +6,11 @@ from sklearn import preprocessing
 import novainstrumentation as ni
 
 #Load signals
-raw_A, rawtime, srate = syncm.loadsignal(".\BVP_RESPchest_4_1_4.h5", "channel_1")
-raw_B, rawtime, srate = syncm.loadsignal(".\BVP_RESPchest_4_1_4.h5", "channel_3")
+txtfile = True
+filepath = ".\BVP_RESPchest_4_1_4"
+
+raw_A, rawtime, srate = syncm.loadsignal(filepath, "channel_1", txtfile)
+raw_B, rawtime, srate = syncm.loadsignal(filepath, "channel_3", txtfile)
 
 #Signal  clipping
 startpoint = 70*srate
