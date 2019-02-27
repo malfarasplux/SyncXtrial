@@ -29,7 +29,7 @@ def loadsignal(fname,channel,txtfile=False):
     if txtfile:
         file = fname + ".txt"
         txtdata = np.loadtxt(file)
-        data = txtdata[:,channel].reshape(-1,1)
+        data = txtdata[:,channel+1].reshape(-1,1)
         srate = 1000
         rawtime = (np.arange(len(data))/srate).reshape(-1,1)
         print("txtload")
