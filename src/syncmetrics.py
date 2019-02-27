@@ -25,18 +25,24 @@ from neurokit import rsp_process
 ##############################################################################
 
 # Import data
-def loadsignal(fname,channel):
-    h5_object = File(fname)
-    h5_group = h5_object.get('00:07:80:58:9B:3F')
-    srate = h5_group.attrs.get("sampling rate")
-    h5_sub_group = h5_group.get("raw")
-    data_chan = h5_sub_group.get(channel)
-    data = [item for sublist in data_chan for item in sublist]
-    rawtime = np.array(bsnb.generate_time(data, srate))
-    rawtime = rawtime.reshape(-1,1)
+def loadsignal(fname,channel,file,txtfile=False):
+    if txtfile:
+        file = fname + ".txt"
+        txtdata = np.loadtxt(file)
+        data = txtdata[:,2].reshape(-1,1)
+        srate = 1000
+        rawtime = (np.arange(len(data))/srate).reshape(-1,1)
+    else:
+        fname = fname + ".h5"
+        h5_object = File(fname)
+        h5_group = h5_object.get('00:07:80:58:9B:3F')
+        srate = h5_group.attrs.get("sampling rate")
+        h5_sub_group = h5_group.get("raw")
+        data_chan = h5_sub_group.get(channel)
+        data = [item for sublist in data_chan for item in sublist]
+        rawtime = np.array(bsnb.generate_time(data, srate))
+        rawtime = rawtime.reshape(-1,1)
     return (np.array(data, dtype=np.float64)).reshape(-1,1), rawtime, srate
-
-#R, srate = loadsignal(".\BVP_RESPchest_4_1_4.h5", "channel_1")
 
 # Signal clipping (slice)
 def signalclipping():
