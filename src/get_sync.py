@@ -6,7 +6,7 @@ from sklearn import preprocessing
 import novainstrumentation as ni
 
 #Load signals
-txtload = False
+txtload = True
 filepath = "./BVP_RESPchest_4_1_4"
 
 raw_A, rawtime, srate = syncm.loadsignal(filepath, 1, txtload)
