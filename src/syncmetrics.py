@@ -25,14 +25,16 @@ from neurokit import rsp_process
 ##############################################################################
 
 # Import data
-def loadsignal(fname,channel,file,txtfile=False):
+def loadsignal(fname,channel,txtfile=False):
     if txtfile:
         file = fname + ".txt"
         txtdata = np.loadtxt(file)
-        data = txtdata[:,2].reshape(-1,1)
+        data = txtdata[:,channel].reshape(-1,1)
         srate = 1000
         rawtime = (np.arange(len(data))/srate).reshape(-1,1)
+        print("txtload")
     else:
+        channel = "channel_" + str(channel)
         fname = fname + ".h5"
         h5_object = File(fname)
         h5_group = h5_object.get('00:07:80:58:9B:3F')
@@ -189,6 +191,8 @@ def correlation_coeff(a,b):
 # Instantaneous phase
 # TODO hardcoded srate problem
 def comp_inst_phase(x_temp):
+    if x_temp.ndim != 1:
+        x_temp = x_temp.reshape(len(x_temp))
     sampling_rate = 1000
     analytic_signal = hilbert(x_temp)
     analytic_signal=np.array(analytic_signal)
