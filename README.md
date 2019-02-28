@@ -1,6 +1,7 @@
 # SyncXtrial
 Synchrony exploration through a sensing lens (PLUX sensors + OpenSignals + python)
 
+[0. Todo list(20190228)](#todo)  
 [1. Tools required](#prereq)  
 [2. Sensing platform documentation](#docs)  
 [3. Extra resources](#resrc)  
@@ -10,6 +11,17 @@ Synchrony exploration through a sensing lens (PLUX sensors + OpenSignals + pytho
 [syncmetrics.py](./src/sync_assess.py)  
 [get_sync.py](./src/sync_assess.py)  
 
+##  0. TODO List<a name="todo"></a>
+- Fix peak detection (and check with other signals)  
+- New acquisitions with BITalino + Breathe app (make sure the sensor doesn't saturate)  
+- Check Channels 1,2,3,4
+- Prepare report (3000, 6000, 15000)
+- Smooth the signal 
+- Look in detail the region where plots show synchrony. What happens?  
+- ServerBIT OSC calls after processing buffer / Or MIDI protocol instead
+- Dynamical plots in python https://github.com/pyqtgraph/pyqtgraph/tree/develop/examples  
+- Obtain feature vectors (saved as .txt) for audio mapping 
+- Defining the sync level from the integration of features  
 
 
 ##  1. Tools required <a name="prereq"></a>
