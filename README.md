@@ -22,6 +22,7 @@ Synchrony exploration through a sensing lens (PLUX sensors + OpenSignals + pytho
 - Dynamical plots in python https://github.com/pyqtgraph/pyqtgraph/tree/develop/examples  
 - Obtain feature vectors (saved as .txt) for audio mapping 
 - Defining the sync level from the integration of features  
+- New thread for plotting  
 
 
 ##  1. Tools required <a name="prereq"></a>
