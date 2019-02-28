@@ -22,9 +22,6 @@ https://www.python.org/downloads/
 - PLUX OpenSignals (r)evolution Software  
 https://www.biosignalsplux.com/en/software  
 
-- M̵I̵D̵O̵ ̵M̵I̵D̵I̵ ̵P̵y̵t̵h̵o̵n̵ ̵l̵i̵b̵r̵a̵r̵y̵ ̵  
-https://mido.readthedocs.io/en/latest/
-
 - (Recommended) Anaconda + Python  
  https://www.anaconda.com/download/
 
@@ -32,7 +29,10 @@ https://mido.readthedocs.io/en/latest/
 https://www.biosignalsplux.com/en/software/apis  
 
 - (Recommended) Pynput library for Keyboard events listener  
-https://pypi.org/project/pynput/
+https://pypi.org/project/pynput/  
+
+- <span style="color:red">M̵I̵D̵O̵ ̵M̵I̵D̵I̵ ̵P̵y̵t̵h̵o̵n̵ ̵l̵i̵b̵r̵a̵r̵y̵ ̵ </span>  
+https://mido.readthedocs.io/en/latest/
 
 
 ##  2. Sensing platform documentation <a name="docs"></a>
