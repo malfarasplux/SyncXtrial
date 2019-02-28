@@ -26,7 +26,8 @@ https://www.biosignalsplux.com/en/software
 - (Recommended) Anaconda + Python  
  https://www.anaconda.com/download/
 
-- (Recommended) biosignalsplux API  
+- (Recommended) PLUX APIs 
+https://bitalino.com/pyAPI/  
 https://www.biosignalsplux.com/en/software/apis  
 
 - (Recommended) Pynput library for Keyboard events listener  
