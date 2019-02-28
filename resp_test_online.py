@@ -1,5 +1,5 @@
 
-#Program to explore Synchrony via 2 BITalino 1-axis RESP Sensors (A5, A6) and sound feedback
+#Program to explore Synchrony via 2 BITalino RESP Sensors (A5, A6) 
 from __future__ import division
 
 import socket
