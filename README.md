@@ -22,7 +22,7 @@ https://www.python.org/downloads/
 - PLUX OpenSignals (r)evolution Software  
 https://www.biosignalsplux.com/en/software  
 
-- MIDO MIDI Python library  
+- M̵I̵D̵O̵ ̵M̵I̵D̵I̵ ̵P̵y̵t̵h̵o̵n̵ ̵l̵i̵b̵r̵a̵r̵y̵ ̵ ̵ 
 https://mido.readthedocs.io/en/latest/
 
 - (Recommended) Anaconda + Python  
