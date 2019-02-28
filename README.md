@@ -13,7 +13,8 @@ Synchrony exploration through a sensing lens (PLUX sensors + OpenSignals + pytho
 
 
 ##  1. Tools required <a name="prereq"></a>
-- PLUX biosignalsplux + 2xPZT respiration sensors  
+- PLUX sensing platform + 2xPZT respiration sensors  
+https://bitalino.com/  
 https://www.biosignalsplux.com/en/explorer
 
 - Pyhton (v > 3.5)  
@@ -31,10 +32,6 @@ https://www.biosignalsplux.com/en/software/apis
 - (Recommended) Pynput library for Keyboard events listener  
 https://pypi.org/project/pynput/  
 
-- <span style="color:red">M̵I̵D̵O̵ ̵M̵I̵D̵I̵ ̵P̵y̵t̵h̵o̵n̵ ̵l̵i̵b̵r̵a̵r̵y̵ ̵ </span>  
-https://mido.readthedocs.io/en/latest/
-
-
 ##  2. Sensing platform documentation <a name="docs"></a>
 - PLUX PZT respiration sensor  
 http://bitalino.com/datasheets/PZT_Sensor_Datasheet.pdf  
@@ -46,6 +43,9 @@ https://www.tobias-erichsen.de/software/loopmidi.html
 
 - Dexed  
 https://asb2m10.github.io/dexed/
+
+- <span style="color:red">M̵I̵D̵O̵ ̵M̵I̵D̵I̵ ̵P̵y̵t̵h̵o̵n̵ ̵l̵i̵b̵r̵a̵r̵y̵ ̵ </span>  
+https://mido.readthedocs.io/en/latest/
 
 ##  4. Configuration <a name="config"></a>  
 1. Pair your biosignalsplux device with your computer
