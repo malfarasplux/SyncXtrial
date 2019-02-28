@@ -11,6 +11,15 @@ import pandas as pd
 import numpy as np
 import bitalino
 import time
+import syncmetrics as syncm
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+import datetime as dt
+from pyqtgraph.Qt import QtGui, QtCore
+import pyqtgraph as pg
+
+
+
 
 
 class bitalino_data(object):
@@ -33,6 +42,8 @@ sigA=[]
 sigB=[]
 W_A=[]
 W_B=[]
+xs = []
+ys = []
 def show_menu():
     for id in list(MENU_INPUT.keys()):
         print(str(id) + ' | ' + MENU_INPUT[id])
@@ -47,6 +58,20 @@ def server_request(action):
         return 'stop'
     else:
         return ''
+    # Realtime data plot. Each time this function is called, the data display is updated
+
+
+def update(value):
+    global curve, ptr, Xm    
+    Xm[:-1] = Xm[1:] 
+    
+                     # shift data in the temporal mean 1 sample left
+    Xm[-1] = float(value)                 # vector containing the instantaneous values      
+    ptr += 1                              # update x position for displaying the curve
+    curve.setData(Xm)                     # set the curve with this data
+    curve.setPos(ptr,0)                   # set x position in the graph to 0
+    QtGui.QApplication.processEvents()    # you MUST process the plot now
+
 
 # TCP client class
 class TCPClient(object):
@@ -76,6 +101,7 @@ class TCPClient(object):
     def stop(self):
         self.isChecking = False
         self.socket.close()
+    
 
     def msgChecker(self):
         global bit1
@@ -84,6 +110,11 @@ class TCPClient(object):
         global sigB
         global W_A
         global W_B
+        global xs
+        global ys
+        global curve, ptr, Xm    
+
+        
 
         
 
@@ -96,8 +127,14 @@ class TCPClient(object):
         W_B = np.zeros(win_size)
         delta_t=0.1*fs
         j = 0
-        
-    
+        app = QtGui.QApplication([])            # you MUST do this once (initialize things)
+        win = pg.GraphicsWindow(title="Signal from serial port") # creates a window
+        p = win.addPlot(title="Realtime plot")  # creates empty space for the plot in the window
+        curve = p.plot()                        # create an empty "plot" (a curve to plot)
+                            
+        windowWidth = 500                       # width of the window displaying the curve
+        Xm = linspace(0,0,windowWidth)          # create array that will contain the relevant time series     
+        ptr = -windowWidth                      # set first x position
 
 #        bit1 = bitalino_data()
         while self.isChecking:
@@ -147,21 +184,38 @@ class TCPClient(object):
                             j = j+1
 
                         else :
+                        
                             W_A = np.roll(W_A,-buffer_W)
                             W_A[-buffer_W:] = sigA
                             
                             W_B = np.roll(W_B,-buffer_W)
                             W_B[-buffer_W:] = sigB
+                            
+                            ####### synchrony processing######## 
                         
-                        avg1 = np.mean(bit1.RESP1)
-                        avg2 = np.mean(bit1.RESP2)
-                        dsync = (avg1 - avg2)
-                        avgd = np.mean(dsync)
-                        print(avg1)
+                            result=syncm.lin_reg_r_metric(W_A,W_B)  
+                            print(result)
+                                                        
+                            a=result
+                            a=np.array(a)
+                            ### START QtApp #####
+                            ####################
+                            
+                            
+                                                        ### MAIN PROGRAM #####    
+                            # this is a brutal infinite loop calling your realtime data plot
+                            update(a)
+#                        
+                            
+#                        avg1 = np.mean(bit1.RESP1)
+#                        avg2 = np.mean(bit1.RESP2)
+#                        dsync = (avg1 - avg2)
+#                        avgd = np.mean(dsync)
                         for line in dataframe.values:
                             self.txtFile.addData('\n')
                             self.txtFile.addData(",".join([str(x) for x in line]))
-
+                                                ### END QtApp ####
+        
             for s in writable:
                 try:
                     next_msg = self.msgQueue.get_nowait()
@@ -173,6 +227,8 @@ class TCPClient(object):
 
             for s in exceptional:
                 print("exceptional ", s)
+                
+        pg.QtGui.QApplication.exec_() # you MUST put this at the end
 
     def addMsgToSend(self, data):
         self.msgQueue.put(data)
