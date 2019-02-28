@@ -36,10 +36,11 @@ https://pypi.org/project/pynput/
 
 
 ##  2. Sensing platform documentation <a name="docs"></a>
-- biosignalsplux PZT respiration sensor    
+- PLUX PZT respiration sensor  
+http://bitalino.com/datasheets/PZT_Sensor_Datasheet.pdf  
 https://www.biosignalsplux.com/datasheets/PZT_Sensor_Datasheet.pdf
 
-##  3. Other useful resources <a name="resrc"></a>  
+##  3. Other useful resources in case of audio feedback<a name="resrc"></a>  
 - loopMIDI  
 https://www.tobias-erichsen.de/software/loopmidi.html
 
