@@ -9,10 +9,10 @@ import select
 import queue
 import pandas as pd
 import numpy as np
-import bitalino
+#import bitalino
 import time
 import syncmetrics as syncm
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import datetime as dt
 from pyqtgraph.Qt import QtGui, QtCore
@@ -77,7 +77,7 @@ def update(value):
 class TCPClient(object):
     def __init__(self):
         self.tcpIp = ''
-        self.tcpPort = 5555
+        self.tcpPort = 5559
         self.buffer_size = 99999
 
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -133,7 +133,7 @@ class TCPClient(object):
         curve = p.plot()                        # create an empty "plot" (a curve to plot)
                             
         windowWidth = 500                       # width of the window displaying the curve
-        Xm = linspace(0,0,windowWidth)          # create array that will contain the relevant time series     
+        Xm = linspace(0,0,windowWidth)          # create array that will contain the relevant time series
         ptr = -windowWidth                      # set first x position
 
 #        bit1 = bitalino_data()

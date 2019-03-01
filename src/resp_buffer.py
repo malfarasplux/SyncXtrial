@@ -9,11 +9,14 @@ import select
 import queue
 import pandas as pd
 import numpy as np
-import bitalino
 import time
 import syncmetrics as syncm
 
+from pythonosc import osc_message_builder
+from pythonosc import osc_bundle_builder
+from pythonosc import udp_client
 
+import asyncio
 
 class bitalino_data(object):
     def __init__(self):
@@ -35,6 +38,13 @@ sigA=[]
 sigB=[]
 W_A=[]
 W_B=[]
+
+# OSC output Config
+local_ip = '127.0.0.1'
+local_port = 12000
+output_address = '/0/result'
+client = udp_client.SimpleUDPClient(local_ip, local_port)
+
 def show_menu():
     for id in list(MENU_INPUT.keys()):
         print(str(id) + ' | ' + MENU_INPUT[id])
@@ -78,6 +88,19 @@ class TCPClient(object):
     def stop(self):
         self.isChecking = False
         self.socket.close()
+    
+#    Send to Processing/MAX/Etc...
+    def send_osc(self, dev_id, values):
+        bundle = osc_bundle_builder.OscBundleBuilder(osc_bundle_builder.IMMEDIATELY)
+        msg = osc_message_builder.OscMessageBuilder(address=output_address)
+        # Test bundle outputs: 1, 2, 3, ...
+        print(values[0])
+        for val in values:
+            print (val)
+            msg.add_arg(val)
+            bundle.add_content(msg.build())
+            bundle = bundle.build()
+        client.send(bundle)
 
     def msgChecker(self):
         global bit1
@@ -99,8 +122,6 @@ class TCPClient(object):
         delta_t=0.1*fs
         j = 0
         
-    
-
 #        bit1 = bitalino_data()
         while self.isChecking:
             readable, writable, exceptional = select.select(self.inputCheck, self.outputCheck, self.inputCheck)
@@ -154,9 +175,13 @@ class TCPClient(object):
                             
                             W_B = np.roll(W_B,-buffer_W)
                             W_B[-buffer_W:] = sigB
-                            result=syncm.lin_reg_r_metric(W_A,W_B)  
+                            result_1=syncm.lin_reg_r_metric(W_A,W_B)
+                            
+                            #add results here
+                            result.append(result_1)
                             print(result)
-                        
+                            #forward to OSC bundle
+                            self.send_osc(0, results)
                        
                         for line in dataframe.values:
                             self.txtFile.addData('\n')

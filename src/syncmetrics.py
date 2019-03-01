@@ -11,9 +11,9 @@ from scipy.signal import coherence
 
 from sklearn import preprocessing 
 from sklearn.metrics.pairwise import cosine_similarity
-import novainstrumentation as ni
+#import novainstrumentation as ni
 
-from neurokit import rsp_process
+#from neurokit import rsp_process
 
 
 #                   normalized_amplitude,  #amplitude #miq
