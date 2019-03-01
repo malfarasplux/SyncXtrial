@@ -41,7 +41,7 @@ W_B=[]
 
 # OSC output Config
 local_ip = '127.0.0.1'
-local_port = 12000
+local_port = 8888
 output_address = '/0/result'
 client = udp_client.SimpleUDPClient(local_ip, local_port)
 
