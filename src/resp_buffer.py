@@ -11,6 +11,8 @@ import pandas as pd
 import numpy as np
 import bitalino
 import time
+import syncmetrics as syncm
+
 
 
 class bitalino_data(object):
@@ -152,12 +154,10 @@ class TCPClient(object):
                             
                             W_B = np.roll(W_B,-buffer_W)
                             W_B[-buffer_W:] = sigB
+                            result=syncm.lin_reg_r_metric(W_A,W_B)  
+                            print(result)
                         
-                        avg1 = np.mean(bit1.RESP1)
-                        avg2 = np.mean(bit1.RESP2)
-                        dsync = (avg1 - avg2)
-                        avgd = np.mean(dsync)
-                        print(avg1)
+                       
                         for line in dataframe.values:
                             self.txtFile.addData('\n')
                             self.txtFile.addData(",".join([str(x) for x in line]))
