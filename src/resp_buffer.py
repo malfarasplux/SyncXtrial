@@ -41,7 +41,7 @@ W_B=[]
 
 # OSC output Config
 local_ip = '127.0.0.1'
-local_port = 8888
+local_port = 12000
 output_address = '/0/result'
 client = udp_client.SimpleUDPClient(local_ip, local_port)
 
@@ -96,7 +96,6 @@ class TCPClient(object):
         # Test bundle outputs: 1, 2, 3, ...
         print(values[0])
         for val in values:
-            print (val)
             msg.add_arg(val)
             bundle.add_content(msg.build())
             bundle = bundle.build()
@@ -178,8 +177,9 @@ class TCPClient(object):
                             result_1=syncm.lin_reg_r_metric(W_A,W_B)
                             
                             #add results here
-                            result.append(result_1)
-                            print(result)
+                            results = []
+                            results.append(result_1)
+#                            print(results)
                             #forward to OSC bundle
                             self.send_osc(0, results)
                        

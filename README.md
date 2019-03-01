@@ -66,10 +66,19 @@ https://mido.readthedocs.io/en/latest/
 
 2. Use OpenSignals(r) software to enable the device and launch acquisition, choosing the right channels and sampling rate
 
-3. Set the TCP integration checkbox ON and default port. 
+3. Set the TCP integratiDownload and open this Processing sketch to monitor inputs
+OSCDataPlotter.zip
+on checkbox ON and default port. 
 
 4. When launched, make sure the websocket connects to your local TCP/IP. IP can be manually input in the code.
 
+##  5. OSC Output <a name="osc"></a>  
+Download and open this Processing sketch to monitor inputs
+[OSCDataPlotter.zip](/uploads/1a2d9ec4d86e649aac9a0268e8c3ce8d/OSCDataPlotter.zip)
+
+![Screen_Shot_2018-11-05_at_12.13.39_PM](https://gitlab.com/weselle/riot-serverbit/uploads/0890fb9607a513424bfab356f1c140ad/Screen_Shot_2018-11-05_at_12.13.39_PM.png)
+
+Check that the `receiveDataOnOSCPort` and `ipAddress` variables are set correctly according to the device configuration
 
 ***
 
