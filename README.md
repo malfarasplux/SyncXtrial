@@ -74,7 +74,7 @@ on checkbox ON and default port.
 
 ##  5. OSC Output <a name="osc"></a>  
 Download and open this Processing sketch to monitor inputs
-[OSCDataPlotter.zip](/uploads/1a2d9ec4d86e649aac9a0268e8c3ce8d/OSCDataPlotter.zip)
+[OSCDataPlotter.zip](https://gitlab.com/weselle/riot-serverbit/uploads/1a2d9ec4d86e649aac9a0268e8c3ce8d/OSCDataPlotter.zip)
 
 ![Screen_Shot_2018-11-05_at_12.13.39_PM](https://gitlab.com/weselle/riot-serverbit/uploads/0890fb9607a513424bfab356f1c140ad/Screen_Shot_2018-11-05_at_12.13.39_PM.png)
 
