@@ -33,9 +33,6 @@ https://www.biosignalsplux.com/en/explorer
 - Pyhton (v > 3.5)  
 https://www.python.org/downloads/
 
-- PLUX OpenSignals (r)evolution Software  
-https://www.biosignalsplux.com/en/software  
-
 - (Recommended) Anaconda + Python  
  https://www.anaconda.com/download/
 
@@ -45,6 +42,9 @@ https://www.biosignalsplux.com/en/software/apis
 
 - (Recommended) Pynput library for Keyboard events listener  
 https://pypi.org/project/pynput/  
+
+- (Optional) PLUX OpenSignals (r)evolution Software + TCP integration feature   
+https://www.biosignalsplux.com/en/software  
 
 ##  2. Sensing platform documentation <a name="docs"></a>
 - PLUX PZT respiration sensor  
