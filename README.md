@@ -1,7 +1,7 @@
 # SyncXtrial
 Synchrony exploration through a sensing lens (PLUX sensors + OpenSignals + python)
 
-[0. Todo list(20190228)](#todo)  
+[0. Todo list](#todo)  
 [1. Tools required](#prereq)  
 [2. Sensing platform documentation](#docs)  
 [3. Extra resources](#resrc)  
@@ -12,6 +12,23 @@ Synchrony exploration through a sensing lens (PLUX sensors + OpenSignals + pytho
 [get_sync.py](./src/sync_assess.py)  
 
 ##  0. TODO List<a name="todo"></a>
+
+### (20190307)
+- Create the synthesised signal case to test the best output  
+- Prepare paper outline  
+- Improve reporting mechanism or report generation 
+- Check OSC implementation for biosignalsplux API  
+- Involve Rui in the development 
+- Provide saved feature output files to ULANC 
+- Map a basic sync feature to two close freq. signals (MIDI Dexed, MAX, Cecilia?)
+- Get an 8 channel acquisition (+ pics). Make sure it is replicable  
+- Request equipment lend to UP (biosignalsplux, 4xRESP, 2xECG, 2xEDA)  
+- Make sure OSC notebook runs (multiplatform)  
+- Test sync measurement with BITalino ACCx2 example
+- Fix time delay feature issue  
+- Describe the new use case scenario (Subject A syncs to subject B physiology through headphones)
+
+### (20190228)
 - Fix peak detection (and check with other signals)  
 - New acquisitions with BITalino + Breathe app (make sure the sensor doesn't saturate)  
 - Check Channels 1,2,3,4
@@ -52,7 +69,7 @@ http://bitalino.com/datasheets/PZT_Sensor_Datasheet.pdf
 https://www.biosignalsplux.com/datasheets/PZT_Sensor_Datasheet.pdf
 
 ##  3. Other useful resources in case of audio feedback<a name="resrc"></a>  
--Cecilia   
+- Cecilia   
 http://ajaxsoundstudio.com/software/cecilia/  
 
 - loopMIDI  
