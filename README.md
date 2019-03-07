@@ -69,7 +69,7 @@ http://bitalino.com/datasheets/PZT_Sensor_Datasheet.pdf
 https://www.biosignalsplux.com/datasheets/PZT_Sensor_Datasheet.pdf
 
 ##  3. Other useful resources in case of audio feedback<a name="resrc"></a>  
--Cecilia   
+- Cecilia   
 http://ajaxsoundstudio.com/software/cecilia/  
 
 - loopMIDI  
